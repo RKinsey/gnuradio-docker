@@ -34,6 +34,4 @@ while [[ ${1:0:1} == "-" ]];do
     shift
 done
 
-docker-machine start gnuradio
-eval $(docker-machine env gnuradio)
 docker run -it --rm $AUDIOARG $X11ARG $X11TMP $PULSECOOKIE $ENTRYPOINT -v $1:/home/gnuradio/ --privileged rkinsey/gnuradio
