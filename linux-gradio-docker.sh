@@ -1,15 +1,13 @@
 #!/bin/bash
 VOL=$1
-#host.docker.internal might not exist on linux docker, I haven't yet been able to check on a current version
-AUDIOARG="-e PULSE_SERVER=host.docker.internal"
-X11ARG="-e DISPLAY=host.docker.internal:0"
+HOSTIP="$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')"
+AUDIOARG="-e PULSE_SERVER=$HOSTIP"
+X11ARG="-e DISPLAY=$HOSTIP:0"
 X11TMP="-v /tmp/.X11-unix:/tmp/.X11-unix"
 PULSECOOKIE="-v $HOME/.config/pulse/:/home/gnuradio/.config/pulse/"
 
 function usage {
-    echo "Usage: ./linuxrunner.sh [--no-out] [--setup] [--entry <program>] <home volume>"
-    echo "       --no-out: run docker without gui or sound"
-    echo "       --entry: sets the docker entrypoint to program"
+    printf "Usage: \n\t./linuxrunner.sh [--no-out | --companion] <home volume>\n\t./linux-gradio-docker.sh --setup\n\nOptions\n\t--setup: prepare dummy network to pass IP\n\t--no-out: run docker without gui or sound\n\t--companion: sets the docker entrypoint to program"
     exit
 }
 if [[ "$#" -lt 1 || "$#" -gt 4 ]];then
@@ -17,6 +15,8 @@ if [[ "$#" -lt 1 || "$#" -gt 4 ]];then
 fi
 while [[ ${1:0:1} == "-" ]];do
     case $1 in
+        -- setup)   
+
         --no-out)   VOL="$2"
                     AUDIOARG=""
                     X11ARG=""

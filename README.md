@@ -5,11 +5,12 @@ These are potentially **Extremely** dangerous at the moment, use at your own ris
 
 Until I can get an sdr to test with, nothing here has been tested for usb functionality.  
 I've tested gnuradio-companion and sound on macos, but not on the others
-# Dependencies
+# Universal dependencies 
+Linux should have both of these by default  
 * X11 server for GUI
 * Pulseaudio for sound
 
-## Mac-specific Dependencies
+## Mac instructions
 * Recommended X11 server is XQuartz: [https://www.xquartz.org/]
 * Homebrew is easiest for pulseaudio: [https://brew.sh]  
 ... Once you have homebrew, use `brew install pulseaudio` to install it (`macrunner.sh` will handle starting it)
