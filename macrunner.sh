@@ -17,7 +17,7 @@ trap cleanup EXIT
 function usage {
     echo "Usage: ./macrunner.sh [--no-out] [--setup] [--entry <program>] <home volume>"
     echo "       --no-out: run docker without gui or sound"
-    echo "       --setup: run vm setup"
+    echo "       --setup: run vm setup and exit"
     echo "       --entry: sets the docker entrypoint to program"
     exit
 }
@@ -26,11 +26,11 @@ if [[ "$#" -lt 1 || "$#" -gt 4 ]];then
 fi
 while [[ ${1:0:1} == "-" ]];do
     case $1 in
-        --setup)    brew install pulseaudio
-                    docker-machine create --driver virtualbox gnuradio
+        --setup)    docker-machine create --driver virtualbox gnuradio
                     docker-machine stop gnuradio
                     vboxmanage modifyvm gnuradio --usb on
-                    vboxmanage usbfilter add --target gnuradio --name passthrough --action hold
+                    vboxmanage usbfilter add 0 --target gnuradio --name passthrough --action hold
+                    exit
                     ;;
         
         --no-out)   VOL="$2"
@@ -50,7 +50,8 @@ while [[ ${1:0:1} == "-" ]];do
     esac
     shift
 done
-if [[ $PULSECOOKIE != "" ]]; then
+pactl list>>/dev/null
+if [[ $PULSECOOKIE != "" && $? -ne 0 ]]; then
     pulseaudio>/dev/null &
     PULSEPID=$!
     Xquartz&
