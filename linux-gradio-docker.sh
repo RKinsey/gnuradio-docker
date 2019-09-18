@@ -1,5 +1,6 @@
 #!/bin/bash
 VOL=$1
+#host.docker.internal might not exist on linux docker, I haven't yet been able to check on a current version
 AUDIOARG="-e PULSE_SERVER=host.docker.internal"
 X11ARG="-e DISPLAY=host.docker.internal:0"
 X11TMP="-v /tmp/.X11-unix:/tmp/.X11-unix"

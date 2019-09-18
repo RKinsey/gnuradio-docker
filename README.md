@@ -1,7 +1,10 @@
 # gnuradio-docker
 GNU Radio on Ubuntu with scripts to enable GUI and audio functionality
+# NOTE
+These are potentially **Extremely** dangerous at the moment, use at your own risk
 
-
+Until I can get an sdr to test with, nothing here has been tested for usb functionality.  
+I've tested gnuradio-companion and sound on macos, but not on the others
 # Dependencies
 * X11 server for GUI
 * Pulseaudio for sound
