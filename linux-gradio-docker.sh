@@ -1,10 +1,10 @@
 #!/bin/bash
-VOL=$1sasdf
-HOSTIP="$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')"
-AUDIOARG="-e PULSE_SERVER=$HOSTIP"
-X11ARG="-e DISPLAY=$HOSTIP:0"
+VOL=$1
+AUDIOARG="-e PULSE_SERVER=unix:${XDG_RUNTIME_DIR}/pulse/native "
+X11ARG="-e DISPLAY=unix$DISPLAY"
 X11TMP="-v /tmp/.X11-unix:/tmp/.X11-unix"
-PULSECOOKIE="-v $HOME/.config/pulse/:/home/gnuradio/.config/pulse/"
+PULSEVOL="-v ${XDG_RUNTIME_DIR}/pulse/native/:${XDG_RUNTIME_DIR}/pulse/native"
+PULSECOOKIE="-v $HOME/.config/pulse/:/home/gnuradio/.config/pulse/ --device /dev/snd "
 
 function usage {
     printf "Usage: \n\t./linuxrunner.sh [--no-out | --companion] <home volume>\n\nOptions\n\t--no-out: run docker without gui or sound\n\t--companion: sets the docker entrypoint to program"
@@ -23,8 +23,7 @@ while [[ ${1:0:1} == "-" ]];do
                     PULSECOOKIE=""
                     ;;
 
-        --entry)    shift
-                    ENTRYPOINT="--entrypoint=$1"
+        --gui)      ENTRYPOINT="--entrypoint=gnuradio-companion"
                     ;;
 
         *)          usage
@@ -33,5 +32,5 @@ while [[ ${1:0:1} == "-" ]];do
     esac
     shift
 done
-
-docker run -it --rm $AUDIOARG $X11ARG $X11TMP $PULSECOOKIE $ENTRYPOINT -v $1:/home/gnuradio/ --privileged rkinsey/gnuradio
+DOCKERSTRING="$AUDIOARG $X11ARG $X11TMP $PULSEVOL $PULSECOOKIE $ENTRYPOINT"
+docker run -it --rm $DOCKERSTRING -v $1:/gnuradio:/home/gnuradio/ --privileged rkinsey/gnuradio
