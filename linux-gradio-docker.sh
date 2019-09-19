@@ -1,5 +1,5 @@
 #!/bin/bash
-VOL=$1
+VOL=$1sasdf
 HOSTIP="$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')"
 AUDIOARG="-e PULSE_SERVER=$HOSTIP"
 X11ARG="-e DISPLAY=$HOSTIP:0"
