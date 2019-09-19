@@ -1,0 +1,40 @@
+#!/bin/bash
+VOL=$1
+#host.docker.internal might not exist on linux docker, I haven't yet been able to check on a current version
+AUDIOARG="-e PULSE_SERVER=unix:${XDG_RUNTIME_DIR}/pulse/native "
+X11ARG="-e DISPLAY=unix$DISPLAY"
+X11TMP="-v /tmp/.X11-unix:/tmp/.X11-unix"
+PULSEVOL="-v ${XDG_RUNTIME_DIR}/pulse/native/:${XDG_RUNTIME_DIR}/pulse/native"
+PULSECOOKIE="-v $HOME/.config/pulse/:/home/gnuradio/.config/pulse/ --device /dev/snd "
+
+function usage {
+    echo "Usage: ./linuxrunner.sh [--no-out] [--setup] [--entry <program>] <home volume>"
+    echo "       --no-out: run docker without gui or sound"
+    echo "       --entry: sets the docker entrypoint to program"
+    exit
+}
+if [[ "$#" -lt 1 || "$#" -gt 4 ]];then
+    usage
+fi
+while [[ ${1:0:1} == "-" ]];do
+    case $1 in
+        --no-out)   VOL="$2"
+                    AUDIOARG=""
+                    X11ARG=""
+                    X11TMP=""
+                    PULSEVOL=""
+                    PULSECOOKIE=""
+                    ;;
+
+        --entry)    shift
+                    ENTRYPOINT="--entrypoint=gnuradio-companion"
+                    ;;
+
+        *)          usage
+                    exit
+                    ;;
+    esac
+    shift
+done 
+
+docker run -it --rm  $AUDIOARG $X11ARG $X11TMP $PULSEVOL $PULSECOOKIE $ENTRYPOINT -v $1:/gnuradio:/home/gnuradio/ --privileged rkinsey/gnuradio
