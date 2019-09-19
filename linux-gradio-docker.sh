@@ -1,10 +1,10 @@
 #!/bin/bash
 VOL=$1
-AUDIOARG="-e PULSE_SERVER=unix:${XDG_RUNTIME_DIR}/pulse/native "
+AUDIOARG="-e PULSE_SERVER=unix:${XDG_RUNTIME_DIR}/pulse/native"
 X11ARG="-e DISPLAY=unix$DISPLAY"
 X11TMP="-v /tmp/.X11-unix:/tmp/.X11-unix"
-PULSEVOL="-v ${XDG_RUNTIME_DIR}/pulse/native/:${XDG_RUNTIME_DIR}/pulse/native"
-PULSECOOKIE="-v $HOME/.config/pulse/:/home/gnuradio/.config/pulse/ --device /dev/snd "
+PULSEVOL="-v ${XDG_RUNTIME_DIR}/pulse/native/:/run/user/1000/pulse/native"
+PULSECOOKIE="-v $HOME/.config/pulse/:/home/gnuradio/.config/pulse/ --device /dev/snd"
 
 function usage {
     printf "Usage: \n\t./linuxrunner.sh [--no-out | --companion] <home volume>\n\nOptions\n\t--no-out: run docker without gui or sound\n\t--companion: sets the docker entrypoint to program"
