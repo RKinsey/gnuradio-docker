@@ -9,9 +9,6 @@ COMPANION
 function cleanup {
     eval $(docker-machine env -u)
     docker-machine stop gnuradio
-    for p in $PULSEPID $XPID; do
-        kill $PULSEPID
-    done
 }
 trap cleanup EXIT
 function usage {
@@ -52,10 +49,6 @@ while [[ ${1:0:1} == "-" ]];do
 done
 pactl list>>/dev/null
 if [[ $PULSECOOKIE != "" && $? -ne 0 ]]; then
-    pulseaudio>/dev/null &
-    PULSEPID=$!
-    Xquartz&
-    XPID=$!
     xhost +
 fi
 

@@ -9,7 +9,7 @@ RUN apt-get update && apt-get -y install apt-utils && \
 RUN apt-get install -y software-properties-common && \
     apt-add-repository -y ppa:myriadrf/drivers && apt-get update
 
-RUN apt-get install -y git wget curl cmake build-essential python-dev \
+RUN apt-get install -y git wget curl cmake build-essential python-dev 
     
 RUN apt-get install -y gnuradio gqrx-sdr gr-osmosdr gnuradio-dev 
 
