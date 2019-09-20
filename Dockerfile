@@ -1,7 +1,7 @@
 FROM ubuntu:bionic
 ENV TZ=US/Eastern
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-RUN useradd -ms /bin/bash gnuradio
+RUN useradd -ms /bin/bash -G dialout,plugdev gnuradio
 
 RUN apt-get update && apt-get -y install apt-utils && \
     apt-get update && apt-get dist-upgrade -yf && apt-get clean && apt-get autoremove
@@ -20,8 +20,9 @@ RUN apt-get install -y swig limesuite liblimesuite-dev \
 
 RUN git clone https://github.com/myriadrf/gr-limesdr&& cd gr-limesdr && mkdir build &&\
     cd build && cmake .. && make && make install && ldconfig
-RUN usermod -a -G dialout gnuradio
-RUN usermod -a -G plugdev gnuradio
+#RUN usermod -a -G dialout gnuradio
+#RUN usermod -a -G plugdev gnuradio
+CMD groupadd
 WORKDIR /home/gnuradio
 USER gnuradio
 ENV HOME=/home/gnuradio

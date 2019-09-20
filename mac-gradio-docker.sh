@@ -12,7 +12,7 @@ function cleanup {
 }
 trap cleanup EXIT
 function usage {
-    printf "Usage:  ./macrunner.sh [--no-out] [--setup] [--companion] <home volume> [--docker-args]\n\t--no-out: run docker without gui or sound\n\t--setup: run vm setup and exit\n\t--companion: only launch gui"
+    printf "Usage:  ./macrunner.sh [--setup] [--no-out|--gui] <home volume>\n\t--no-out: run docker without gui or sound\n\t--setup: run vm setup and exit\n\t--gui: only launch gui"
     exit
 }
 if [[ "$#" -lt 1 || "$#" -gt 4 ]];then
@@ -36,7 +36,8 @@ while [[ ${1:0:1} == "-" ]];do
             PULSECOOKIE=""
             ;;
 
-        --gui)      
+        --gui)
+			VOL="$2"      
             ENTRYPOINT="--entrypoint=$1"
             ;;
 
@@ -47,10 +48,7 @@ while [[ ${1:0:1} == "-" ]];do
     esac
     shift
 done
-pactl list>>/dev/null
-if [[ $PULSECOOKIE != "" && $? -ne 0 ]]; then
-    xhost +
-fi
+
 
 docker-machine start gnuradio
 eval $(docker-machine env gnuradio)

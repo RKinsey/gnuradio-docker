@@ -7,7 +7,7 @@ PULSEVOL="-v ${XDG_RUNTIME_DIR}/pulse/native/:${XDG_RUNTIME_DIR}/pulse/native"
 PULSECOOKIE="-v $HOME/.config/pulse/:/home/gnuradio/.config/pulse/ --device /dev/snd"
 
 function usage {
-    printf "Usage: \n\t./linuxrunner.sh [--no-out | --companion] <home volume>\n\nOptions\n\t--no-out: run docker without gui or sound\n\t--companion: sets the docker entrypoint to program"
+    printf "Usage: \n\t./linuxrunner.sh [--no-out | --gui] <home volume>\n\nOptions\n\t--no-out: run docker without gui or sound\n\t--gui: sets the docker entrypoint to program"
     exit
 }
 if [[ "$#" -lt 1 || "$#" -gt 4 ]];then
@@ -23,7 +23,8 @@ while [[ ${1:0:1} == "-" ]];do
                     PULSECOOKIE=""
                     ;;
 
-        --gui)      ENTRYPOINT="--entrypoint=gnuradio-companion"
+        --gui)      VOL="$2"
+					ENTRYPOINT="--entrypoint=gnuradio-companion"
                     ;;
 
         *)          usage
