@@ -33,4 +33,4 @@ while [[ ${1:0:1} == "-" ]];do
     shift
 done
 DOCKERSTRING="$AUDIOARG $X11ARG $X11TMP $PULSEVOL $PULSECOOKIE $ENTRYPOINT"
-docker run -it --rm $DOCKERSTRING -v $1:/home/gnuradio/ --device rkinsey/gnuradio
+docker run -it --rm $DOCKERSTRING -v $1:/home/gnuradio/ --privileged rkinsey/gnuradio
