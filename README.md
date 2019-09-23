@@ -15,7 +15,7 @@ Ubuntu probably has both of these already, unless you're on a weird variant.
 * Homebrew is easiest for pulseaudio: [https://brew.sh]  
 ... Once you have homebrew, use `brew install pulseaudio` to install it (`macrunner.sh` will handle starting it)
 * You MUST have Virtualbox and the extension pack installed for USB passthrough: [https://www.virtualbox.org/wiki/Downloads]
-
+WHen you attach a new SDR, make sure you open VirtualBox and add a USB filter to your VM, there's a button with a green plus in the USB settings for the VM that lets you add a filter for a connected device.
 # Running the container
 You can call `docker run rkinsey/gnuradio` with whatever arguments you like, but there are three scripts (one for each major OS group)in this to make things easier. 
 Mac users: call `./mac-gradio-docker.sh --setup` FIRST, or you'll have to manually setup a virtualbox vm called `gnuradio` for docker-machine
