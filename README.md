@@ -6,7 +6,7 @@ These are potentially **Extremely** dangerous at the moment, use at your own ris
 Until I can get an sdr to test with, nothing here has been tested for usb functionality.  
 I've tested gnuradio-companion and sound on macos, but not on the others
 # Universal dependencies 
-Linux should have both of these by default  
+Ubuntu probably has both of these already, unless you're on a weird variant. 
 * X11 server for GUI
 * Pulseaudio for sound
 
@@ -18,5 +18,5 @@ Linux should have both of these by default
 
 # Running the container
 You can call `docker run rkinsey/gnuradio` with whatever arguments you like, but there are three scripts (one for each major OS group)in this to make things easier. 
-Mac users: call `./macrunner.sh --setup` FIRST, or you'll have to manually setup a virtualbox vm called `gnuradio` for docker-machine
-All: `./macrunner.sh /path/to/dir/for/container/home`
+Mac users: call `./mac-gradio-docker.sh --setup` FIRST, or you'll have to manually setup a virtualbox vm called `gnuradio` for docker-machine
+All: `./script-name.sh /path/to/dir/for/container/home`
