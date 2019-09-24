@@ -20,6 +20,7 @@ while [[ ${1:0:1} == "-" ]];do
                     AUDIOARG=""
                     X11ARG=""
                     X11TMP=""
+                    PULSEVOL=""
                     PULSECOOKIE=""
                     ;;
 
