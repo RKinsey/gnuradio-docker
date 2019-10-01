@@ -8,21 +8,24 @@ PULSECOOKIE="-v $HOME/.config/pulse/:/root/.config/pulse/"
 
 function cleanup {
     eval $(docker-machine env -u)
-    docker-machine stop gnuradio
+    if [[ $NOEXIT == "" ]]; then
+        docker-machine stop gnuradio
+    fi
 }
-trap cleanup EXIT
 function usage {
-    printf "Usage:  ./macrunner.sh [--setup] [--no-out|--gui] <home volume>\n\t--no-out: run docker without gui or sound\n\t--setup: run vm setup and exit\n\t--gui: only launch gui"
-    exit
+    printf "Usage:  ./macrunner.sh [--no-out|--gui] [--no-stop] <home volume>\n\t./macrunner.sh [--setup]\n\n\t--setup: run vm setup and exit\n\t--no-out: run docker without gui or sound\n\t--no-stop: don't stop vm when container exits\n\t--gui: only launch gui\n"
 }
-if [[ "$#" -lt 1 || "$#" -gt 4 ]];then
+if [[ "$#" -lt 1 || "$#" -gt 4 ]]; then
     usage
+    exit
 fi
-while [[ ${1:0:1} == "-" ]];do
+trap cleanup EXIT
+while [[ ${1:0:1} == "-" ]]; do
     case $1 in
         --setup)    
             docker-machine create --driver virtualbox gnuradio
             docker-machine stop gnuradio
+            trap - EXIT
             vboxmanage modifyvm gnuradio --usb on
             vboxmanage usbfilter add 0 --target gnuradio --name passthrough --action hold
             exit
@@ -41,16 +44,20 @@ while [[ ${1:0:1} == "-" ]];do
             ENTRYPOINT="--entrypoint=$1"
             ;;
 
+        --no-stop)
+            NOEXIT="t"
+            ;;
+
         *)  
-            usage
+            usage()
             exit
             ;;
     esac
     shift
 done
-pactl list>>/dev/null
+pactl list>/dev/null 2>&1
 if [[ $PULSECOOKIE != "" && $? -ne 0 ]]; then
-    xhost +
+    xhost +>/dev/null 2>&1
 fi
 docker-machine start gnuradio
 eval $(docker-machine env gnuradio)
