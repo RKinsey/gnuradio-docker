@@ -49,7 +49,7 @@ while [[ ${1:0:1} == "-" ]]; do
             ;;
 
         *)  
-            usage()
+            usage
             exit
             ;;
     esac
