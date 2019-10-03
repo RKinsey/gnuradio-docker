@@ -5,6 +5,7 @@ AUDIOARG="-e PULSE_SERVER=$VMHOSTLOC"
 X11ARG="-e DISPLAY=$VMHOSTLOC:0"
 X11TMP="-v /tmp/.X11-unix:/tmp/.X11-unix"
 PULSECOOKIE="-v $HOME/.config/pulse/:/root/.config/pulse/"
+DHO="-e HOME=/home/gnuradio"
 
 function cleanup {
     eval $(docker-machine env -u)
@@ -61,5 +62,5 @@ if [[ $PULSECOOKIE != "" && $? -ne 0 ]]; then
 fi
 docker-machine start gnuradio
 eval $(docker-machine env gnuradio)
-docker run -it --rm $AUDIOARG $X11ARG $X11TMP $PULSECOOKIE $ENTRYPOINT -v $1:/root -u 0 --privileged rkinsey/gnuradio
+docker run -it --rm $AUDIOARG $X11ARG $X11TMP $PULSECOOKIE $ENTRYPOINT $DHO -v $1:/home/gnuradio -u 0 --privileged rkinsey/gnuradio
 
