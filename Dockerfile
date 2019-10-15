@@ -19,7 +19,13 @@ RUN apt-get install -y swig limesuite liblimesuite-dev \
     limesuite-udev limesuite-images soapysdr-tools soapysdr-module-lms7 rtl-sdr sox
 
 RUN git clone https://github.com/myriadrf/gr-limesdr&& cd gr-limesdr && mkdir build &&\
-    cd build && cmake .. && make && make install && ldconfig
+    cd build && cmake .. && make && make install && ldconfig 
+
+RUN git clone https://github.com/bastibl/gr-foo.git && cd gr-foo && git checkout maint-3.7 && mkdir build &&\ 
+cd build&& cmake .. && make && make install && ldconfig
+
+RUN git clone git://github.com/bastibl/gr-ieee802-11.git && cd gr-ieee802-11 && git checkout maint-3.7 && mkdir build &&\ 
+cd build&& cmake .. && make && make install && ldconfig
 #RUN usermod -a -G dialout gnuradio
 #RUN usermod -a -G plugdev gnuradio
 CMD groupadd
