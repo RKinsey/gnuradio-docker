@@ -27,8 +27,7 @@ while [[ ${1:0:1} == "-" ]]; do
             docker-machine create --driver virtualbox gnuradio
             docker-machine stop gnuradio
             trap - EXIT
-            vboxmanage modifyvm gnuradio --usb on
-            vboxmanage usbfilter add 0 --target gnuradio --name passthrough --action hold
+            vboxmanage modifyvm gnuradio --usbxhci on
             exit
             ;;
         

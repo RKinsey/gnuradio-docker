@@ -24,14 +24,14 @@ RUN git clone https://github.com/myriadrf/gr-limesdr&& cd gr-limesdr && mkdir bu
 RUN git clone https://github.com/bastibl/gr-foo.git && cd gr-foo && git checkout maint-3.7 && mkdir build &&\ 
 cd build&& cmake .. && make && make install && ldconfig
 
-RUN git clone git://github.com/bastibl/gr-ieee802-11.git && cd gr-ieee802-11 && git checkout maint-3.7 && mkdir build &&\ 
+RUN git clone https://github.com/bastibl/gr-ieee802-11.git && cd gr-ieee802-11 && git checkout maint-3.7 && mkdir build &&\ 
 cd build&& cmake .. && make && make install && ldconfig
 #RUN usermod -a -G dialout gnuradio
 #RUN usermod -a -G plugdev gnuradio
-CMD groupadd
+#RUN groupadd
 WORKDIR /home/gnuradio
 USER gnuradio
 ENV HOME=/home/gnuradio
 ENV XDG_RUNTIME_DIR=/home/gnuradio/tmp
 
-ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT [ "/bin/bash" ]
