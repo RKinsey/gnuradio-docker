@@ -1,5 +1,8 @@
 # gnuradio-docker
 GNU Radio on Ubuntu with scripts to enable GUI and audio functionality
+# Update January 9, 2020  
+I thought I'd made this update already, but I would **strongly** recommend against using this, particularly on macOS. The empty VirtualBox filter doesn't do what I thought it did; it gains exclusive control of *all* USB devices, so it'll capture every connection it thinks is new. This includes, say, a macbook's built-in keyboard and touchpad (which is apparently over USB). VBox also has some pretty bad latency, and some programs (e.g. limesuite's FFT viewer) require GPU acceleration, and that didn't work very well either.  
+In short, use Macports or https://github.com/ktemkin/gnuradio-for-mac-without-macports. It's a huge pain to add custom blocks to the latter (though it does come with a bunch), but it's easy to use and quick to install. Macports is macports (and, at least in late October, took several hours to install gnuradio and its dependencies).
 # NOTE
 These are potentially **Extremely** dangerous at the moment, use at your own risk
 
